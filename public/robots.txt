@@ -1,0 +1,22 @@
+# TD STUDIOS Robots.txt
+# https://tdstudios.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://tdstudios.com/sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow specific static assets
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.svg$
+Allow: /*.webp$

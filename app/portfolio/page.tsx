@@ -1,38 +1,45 @@
-import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Portfolio — Featured Projects & Case Studies | TD STUDIOS",
+  description:
+    "Explore our portfolio of luxury digital experiences including e-commerce platforms, brand identities, SaaS applications, and social media campaigns.",
+  openGraph: {
+    title: "Portfolio — TD STUDIOS",
+    description: "Featured projects showcasing luxury design and development excellence.",
+  },
+}
 
 export default function Portfolio() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <Navigation />
+    <div className="min-h-screen bg-black text-white">
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/nyc-aerial-night-bw.jpg"
             alt="NYC aerial view at night in black and white"
             fill
             className="object-cover"
+            style={{ filter: "brightness(0.4) contrast(1.2)" }}
             priority
             quality={85}
           />
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
         </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60" />
 
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-6">
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/td-studios-logo-8uiEdp2FCTu7lUV0ZXsNBNItemsJSg.png"
-            alt="TD Studios Logo"
-            width={800}
-            height={200}
-            className="w-[500px] md:w-[650px] lg:w-[800px] h-auto drop-shadow-2xl mb-8"
-            priority
-          />
-          <div className="text-white/90 text-lg md:text-xl lg:text-2xl font-light tracking-[0.2em] uppercase">
-            Luxury • Strategy • Creativity
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <div className="inline-block px-4 py-2 mb-6 text-xs font-light tracking-widest uppercase border border-white/20 rounded-full bg-white/5 backdrop-blur-sm">
+            Portfolio
           </div>
+          <h1 className="chrome-text text-6xl md:text-8xl font-bold mb-6 tracking-tight">Our Portfolio</h1>
+          <p className="text-xl md:text-2xl text-white/80 font-light leading-relaxed max-w-3xl mx-auto mb-8">
+            A curated selection of our most impactful work across web, development, and social platforms.
+          </p>
         </div>
       </section>
 
@@ -48,7 +55,7 @@ export default function Portfolio() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Project Card 1 */}
-            <div className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 transition-all duration-500">
+            <div className="glass-card p-0 overflow-hidden">
               <div className="aspect-video bg-gradient-to-br from-purple-500/20 to-blue-500/20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -69,7 +76,7 @@ export default function Portfolio() {
             </div>
 
             {/* Project Card 2 */}
-            <div className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 transition-all duration-500">
+            <div className="glass-card p-0 overflow-hidden">
               <div className="aspect-video bg-gradient-to-br from-green-500/20 to-teal-500/20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -90,7 +97,7 @@ export default function Portfolio() {
             </div>
 
             {/* Project Card 3 */}
-            <div className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 transition-all duration-500">
+            <div className="glass-card p-0 overflow-hidden">
               <div className="aspect-video bg-gradient-to-br from-orange-500/20 to-red-500/20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -111,7 +118,7 @@ export default function Portfolio() {
             </div>
 
             {/* Project Card 4 */}
-            <div className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 transition-all duration-500">
+            <div className="glass-card p-0 overflow-hidden">
               <div className="aspect-video bg-gradient-to-br from-pink-500/20 to-purple-500/20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -132,7 +139,7 @@ export default function Portfolio() {
             </div>
 
             {/* Project Card 5 */}
-            <div className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 transition-all duration-500">
+            <div className="glass-card p-0 overflow-hidden">
               <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -153,7 +160,7 @@ export default function Portfolio() {
             </div>
 
             {/* Project Card 6 */}
-            <div className="group relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 transition-all duration-500">
+            <div className="glass-card p-0 overflow-hidden">
               <div className="aspect-video bg-gradient-to-br from-yellow-500/20 to-orange-500/20 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -177,32 +184,18 @@ export default function Portfolio() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-24 px-6">
+      <section className="py-24 px-6 border-t border-white/10">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Start Your Project?</h2>
-            <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
-              Let's collaborate to bring your vision to life with our expertise in design, development, and digital
-              strategy.
-            </p>
-            <Button className="bg-white text-slate-900 hover:bg-white/90 px-8 py-3 text-lg font-medium transition-all duration-300">
-              Start Your Project
-            </Button>
-          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 chrome-text">Ready to Start Your Project?</h2>
+          <p className="text-xl text-white/70 font-light mb-8 max-w-2xl mx-auto">
+            Let's collaborate to bring your vision to life with our expertise in design, development, and digital
+            strategy.
+          </p>
+          <Button asChild className="primary-button px-8 py-4 text-base">
+            <Link href="/contact">Start Your Project</Link>
+          </Button>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-white/10">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="text-2xl font-bold text-white mb-4">TD STUDIOS</div>
-          <p className="text-white/60 mb-6">
-            Strategy, design, development, and social programs for ambitious brands headquartered in New York City,
-            serving teams worldwide.
-          </p>
-          <p className="text-white/40 text-sm">© 2025 TD Studios. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   )
 }

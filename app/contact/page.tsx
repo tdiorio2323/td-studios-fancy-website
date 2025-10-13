@@ -1,13 +1,55 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { GlassCard } from "@/components/glass-card"
 import Image from "next/image"
+import Head from "next/head"
+import { useState } from "react"
 
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+
+    const formData = new FormData(e.currentTarget)
+
+    try {
+      const response = await fetch("https://formspree.io/f/movkvrpz", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+
+      if (response.ok) {
+        setSubmitStatus("success")
+        e.currentTarget.reset()
+      } else {
+        setSubmitStatus("error")
+      }
+    } catch (error) {
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
   return (
-    <div className="min-h-screen bg-black text-white">
+    <>
+      <Head>
+        <title>Contact Us — Start Your Project | TD STUDIOS</title>
+        <meta name="description" content="Get in touch with TD STUDIOS for luxury web design, development, and social media services. Based in NYC, serving clients worldwide. Response within 24 hours." />
+        <meta property="og:title" content="Contact TD STUDIOS — New York City" />
+        <meta property="og:description" content="Ready to elevate your brand? Contact our team for premium design and development services." />
+      </Head>
+      <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -43,7 +85,8 @@ export default function ContactPage() {
               <GlassCard className="p-8">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Email icon" role="img">
+                      <title>Email</title>
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -62,7 +105,8 @@ export default function ContactPage() {
               <GlassCard className="p-8">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Clock icon" role="img">
+                      <title>Response Time</title>
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -81,7 +125,8 @@ export default function ContactPage() {
               <GlassCard className="p-8">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="Location icon" role="img">
+                      <title>Location</title>
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -141,19 +186,41 @@ export default function ContactPage() {
               <GlassCard className="p-8">
                 <h2 className="text-3xl font-light mb-8 text-white">Start Your Project</h2>
 
-                <form className="space-y-6">
+                {submitStatus === "success" && (
+                  <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                    <p className="text-green-400 font-light">
+                      Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.
+                    </p>
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                    <p className="text-red-400 font-light">
+                      Sorry, there was an error sending your message. Please try again or email us directly.
+                    </p>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-light text-white/80 mb-2">Full Name *</label>
+                      <label htmlFor="name" className="block text-sm font-light text-white/80 mb-2">Full Name *</label>
                       <Input
+                        id="name"
+                        name="name"
+                        required
                         placeholder="Your full name"
                         className="bg-white/5 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 font-light"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-light text-white/80 mb-2">Email Address *</label>
+                      <label htmlFor="email" className="block text-sm font-light text-white/80 mb-2">Email Address *</label>
                       <Input
+                        id="email"
+                        name="email"
                         type="email"
+                        required
                         placeholder="your@email.com"
                         className="bg-white/5 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 font-light"
                       />
@@ -162,15 +229,20 @@ export default function ContactPage() {
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-light text-white/80 mb-2">Company Name</label>
+                      <label htmlFor="company" className="block text-sm font-light text-white/80 mb-2">Company Name</label>
                       <Input
+                        id="company"
+                        name="company"
                         placeholder="Your company name"
                         className="bg-white/5 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 font-light"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-light text-white/80 mb-2">Phone Number</label>
+                      <label htmlFor="phone" className="block text-sm font-light text-white/80 mb-2">Phone Number</label>
                       <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
                         placeholder="(555) 123-4567"
                         className="bg-white/5 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 font-light"
                       />
@@ -179,64 +251,74 @@ export default function ContactPage() {
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-light text-white/80 mb-2">Service Needed *</label>
-                      <Select>
-                        <SelectTrigger className="bg-white/5 border-white/20 text-white focus:border-white/40 font-light">
-                          <SelectValue placeholder="Select a service" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-slate-900 border-white/20">
-                          <SelectItem value="website-design">Website Design</SelectItem>
-                          <SelectItem value="development">Development</SelectItem>
-                          <SelectItem value="social-media">Social Media Marketing</SelectItem>
-                          <SelectItem value="design">Graphic Design</SelectItem>
-                          <SelectItem value="multiple">Multiple Services</SelectItem>
-                          <SelectItem value="consultation">Strategy Consultation</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <label htmlFor="service" className="block text-sm font-light text-white/80 mb-2">Service Needed *</label>
+                      <select
+                        id="service"
+                        name="service"
+                        required
+                        className="w-full bg-white/5 border border-white/20 text-white focus:border-white/40 font-light rounded-md px-3 py-2"
+                      >
+                        <option value="" disabled selected>Select a service</option>
+                        <option value="website-design">Website Design</option>
+                        <option value="development">Development</option>
+                        <option value="social-media">Social Media Marketing</option>
+                        <option value="design">Graphic Design</option>
+                        <option value="multiple">Multiple Services</option>
+                        <option value="consultation">Strategy Consultation</option>
+                      </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-light text-white/80 mb-2">Project Budget</label>
-                      <Select>
-                        <SelectTrigger className="bg-white/5 border-white/20 text-white focus:border-white/40 font-light">
-                          <SelectValue placeholder="Select budget range" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-slate-900 border-white/20">
-                          <SelectItem value="10k-25k">$10k - $25k</SelectItem>
-                          <SelectItem value="25k-50k">$25k - $50k</SelectItem>
-                          <SelectItem value="50k-100k">$50k - $100k</SelectItem>
-                          <SelectItem value="100k+">$100k+</SelectItem>
-                          <SelectItem value="discuss">Let's discuss</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <label htmlFor="budget" className="block text-sm font-light text-white/80 mb-2">Project Budget</label>
+                      <select
+                        id="budget"
+                        name="budget"
+                        className="w-full bg-white/5 border border-white/20 text-white focus:border-white/40 font-light rounded-md px-3 py-2"
+                      >
+                        <option value="" disabled selected>Select budget range</option>
+                        <option value="10k-25k">$10k - $25k</option>
+                        <option value="25k-50k">$25k - $50k</option>
+                        <option value="50k-100k">$50k - $100k</option>
+                        <option value="100k+">$100k+</option>
+                        <option value="discuss">Let's discuss</option>
+                      </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-light text-white/80 mb-2">Project Timeline</label>
-                    <Select>
-                      <SelectTrigger className="bg-white/5 border-white/20 text-white focus:border-white/40 font-light">
-                        <SelectValue placeholder="Select timeline" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-slate-900 border-white/20">
-                        <SelectItem value="asap">ASAP</SelectItem>
-                        <SelectItem value="1-2months">1-2 months</SelectItem>
-                        <SelectItem value="3-6months">3-6 months</SelectItem>
-                        <SelectItem value="6months+">6+ months</SelectItem>
-                        <SelectItem value="flexible">Flexible</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <label htmlFor="timeline" className="block text-sm font-light text-white/80 mb-2">Project Timeline</label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      className="w-full bg-white/5 border border-white/20 text-white focus:border-white/40 font-light rounded-md px-3 py-2"
+                    >
+                      <option value="" disabled selected>Select timeline</option>
+                      <option value="asap">ASAP</option>
+                      <option value="1-2months">1-2 months</option>
+                      <option value="3-6months">3-6 months</option>
+                      <option value="6months+">6+ months</option>
+                      <option value="flexible">Flexible</option>
+                    </select>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-light text-white/80 mb-2">Project Details *</label>
+                    <label htmlFor="message" className="block text-sm font-light text-white/80 mb-2">Project Details *</label>
                     <Textarea
+                      id="message"
+                      name="message"
+                      required
                       placeholder="Tell us about your project, goals, and any specific requirements..."
                       rows={6}
                       className="bg-white/5 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 resize-none font-light"
                     />
                   </div>
 
-                  <Button className="w-full primary-button py-4 text-lg font-light">Send Message</Button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full primary-button py-4 text-lg font-light disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
                 </form>
               </GlassCard>
             </div>
@@ -309,5 +391,6 @@ export default function ContactPage() {
         </div>
       </footer>
     </div>
+    </>
   )
 }

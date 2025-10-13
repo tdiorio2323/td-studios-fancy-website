@@ -12,19 +12,14 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    console.log("[v0] Loading timer started")
     const timer = setTimeout(() => {
-      console.log("[v0] Loading timer completed, setting isLoading to false")
       setIsLoading(false)
-    }, 1500) // Updated to 1.5 seconds to match loading screen completion
+    }, 1500)
 
     return () => {
-      console.log("[v0] Cleaning up timer")
       clearTimeout(timer)
     }
   }, [])
-
-  console.log("[v0] HomePage render, isLoading:", isLoading)
 
   if (isLoading) {
     return <LoadingScreen />

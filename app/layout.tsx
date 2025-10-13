@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
+import { StructuredData } from "@/components/structured-data"
 import { Suspense } from "react"
 
 const inter = Inter({
@@ -73,6 +74,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <StructuredData />
+      </head>
       <body className={`${inter.variable} font-sans bg-black text-white antialiased`}>
         <Suspense fallback={<div>Loading...</div>}>
           <Navigation />
