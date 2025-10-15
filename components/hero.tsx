@@ -22,15 +22,15 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 text-center container-custom">
-        <div className="chrome-text text-h1 font-bold mb-6 tracking-tighter leading-none">
+        <div className="chrome-text text-8xl md:text-9xl font-bold mb-8 tracking-tighter leading-none">
           TD STUDIOS
         </div>
 
-        <h1 className="text-h2 text-white/90 mb-4 tracking-tight font-light" data-testid="hero-title">
+        <h1 className="text-4xl md:text-5xl text-white/90 mb-6 tracking-tight font-light" data-testid="hero-title">
           Luxury websites and growth systems for brands with taste.
         </h1>
 
-        <p className="text-body-lg text-white/70 mb-12 tracking-wide font-light max-w-3xl mx-auto" data-testid="hero-subtitle">
+        <p className="text-xl text-white/70 mb-12 tracking-wide font-light max-w-3xl mx-auto" data-testid="hero-subtitle">
           NYC-based. Strategy-led. Full-stack execution.
         </p>
 
