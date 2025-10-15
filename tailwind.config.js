@@ -55,7 +55,6 @@ module.exports = {
         platinum: '#E6E7EA',
         graphite: '#1A1B1E',
         smoke: '#0F1115',
-        accent: '#9EA6FF',
         gold: '#C9B37E',
       },
       borderRadius: {

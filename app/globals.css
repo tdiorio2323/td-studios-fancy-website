@@ -120,12 +120,12 @@
   body {
     @apply bg-ink text-platinum;
   }
-  
+
   /* Selection styling */
   ::selection {
     background-color: rgba(230, 231, 234, 0.2);
   }
-  
+
   /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
