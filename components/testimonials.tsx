@@ -34,19 +34,19 @@ export function Testimonials() {
     <section className="py-32 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="chrome-text text-[clamp(2rem,5vw,3.5rem)] font-bold mb-6 tracking-tight">Testimonials</h2>
-          <p className="text-white/60 text-[clamp(1rem,2vw,1.25rem)] font-light">
+          <h2 className="chrome-text text-h2 font-bold mb-6 tracking-tight">Testimonials</h2>
+          <p className="text-body-lg text-platinum/60 font-light">
             What our clients say about working with us
           </p>
         </div>
 
-        <GlassCard className="p-12 text-center">
-          <blockquote className="text-[clamp(1.125rem,2.5vw,1.5rem)] text-white/90 mb-8 leading-relaxed font-light italic">
-            "{testimonials[activeIndex].quote}"
+        <GlassCard className="p-8 md:p-10 text-center shadow-elev-2">
+          <blockquote className="quote-mark text-body-lg text-platinum/90 mb-8 leading-relaxed font-light italic">
+            {testimonials[activeIndex].quote}
           </blockquote>
 
-          <div className="text-white/70">
-            <div className="font-semibold text-white/90 mb-1">{testimonials[activeIndex].author}</div>
+          <div className="text-platinum/70">
+            <div className="font-semibold text-platinum/90 mb-1">{testimonials[activeIndex].author}</div>
             <div className="text-sm">
               {testimonials[activeIndex].role}, {testimonials[activeIndex].company}
             </div>

@@ -33,22 +33,23 @@ const processSteps = [
 
 export function ProcessRail() {
   return (
-    <section className="py-32 px-6 bg-gray-950/30">
-      <div className="container-custom">
+    <section className="py-32 px-6 bg-smoke/80 glass rounded-3xl mx-6 md:mx-8 relative overflow-hidden">
+      <div className="absolute inset-0 grid-bg opacity-20" />
+      <div className="container-custom relative z-10">
         <div className="text-center mb-20">
           <h2 className="chrome-text text-h2 font-bold mb-6 tracking-tight">Process</h2>
-          <p className="text-body-lg text-white/60 font-light max-w-2xl mx-auto">
+          <p className="text-body-lg text-platinum/60 font-light max-w-2xl mx-auto">
             Our methodology ensures precision delivery and exceptional outcomes
           </p>
         </div>
 
-        <div className="grid md:grid-cols-5 gap-8">
+        <div className="soft-container grid md:grid-cols-5 gap-8">
           {processSteps.map((step, index) => (
-            <div key={step.number} className="text-center group">
-              <div className="chrome-text text-4xl font-bold mb-4 tracking-tight">{step.number}</div>
-              <h3 className="text-xl font-semibold mb-4 text-white/90 tracking-tight">{step.title}</h3>
-              <p className="text-white/60 text-sm leading-relaxed font-light mb-3">{step.description}</p>
-              <p className="text-white/40 text-xs font-medium italic">{step.proofPoint}</p>
+            <div key={step.number} className="text-center group relative">
+              <div className="text-gold font-semibold tracking-[0.18em] text-sm mb-4">{step.number}</div>
+              <h3 className="text-xl font-semibold mb-4 text-platinum/90 tracking-tight">{step.title}</h3>
+              <p className="text-platinum/60 text-sm leading-relaxed font-light mb-3">{step.description}</p>
+              <p className="text-gold/80 text-xs font-medium italic">{step.proofPoint}</p>
               {index < processSteps.length - 1 && (
                 <div className="hidden md:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-white/20 to-transparent" />
               )}

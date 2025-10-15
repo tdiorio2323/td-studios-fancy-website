@@ -56,7 +56,7 @@ export function Navigation() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-0 border-b border-white/5 rounded-none backdrop-blur-xl" role="navigation" aria-label="Main navigation">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass border-0 border-b border-white/10 rounded-none backdrop-saturate-150 shadow-elev-1" role="navigation" aria-label="Main navigation">
       <div className="container-custom py-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center focus-ring rounded-md">
@@ -76,10 +76,10 @@ export function Navigation() {
                     <button
                       onClick={() => toggleDropdown(item.name)}
                       className={cn(
-                        "text-sm font-light tracking-wide transition-all duration-200 hover:text-white relative flex items-center gap-1 focus-ring rounded-md px-2 py-1",
+                        "text-sm font-light tracking-wide transition-all duration-200 hover:text-platinum relative flex items-center gap-1 focus-ring rounded-md px-2 py-1 underline-offset-8 decoration-white/20 hover:decoration-white/40",
                         pathname.startsWith(item.href)
-                          ? "text-white after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-px after:bg-gradient-to-r after:from-white/60 after:to-transparent"
-                          : "text-white hover:text-white",
+                          ? "text-platinum underline"
+                          : "text-platinum/80 hover:text-platinum hover:underline",
                       )}
                       aria-expanded={activeDropdown === item.name}
                       aria-haspopup="true"
@@ -124,10 +124,10 @@ export function Navigation() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "text-sm font-light tracking-wide transition-all duration-200 hover:text-white relative focus-ring rounded-md px-2 py-1",
+                      "text-sm font-light tracking-wide transition-all duration-200 hover:text-platinum relative focus-ring rounded-md px-2 py-1 underline-offset-8 decoration-white/20 hover:decoration-white/40",
                       pathname === item.href
-                        ? "text-white after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-px after:bg-gradient-to-r after:from-white/60 after:to-transparent"
-                        : "text-white hover:text-white",
+                        ? "text-platinum underline"
+                        : "text-platinum/80 hover:text-platinum hover:underline",
                     )}
                     aria-current={pathname === item.href ? "page" : undefined}
                     data-testid={`nav-${item.name.toLowerCase()}`}

@@ -24,7 +24,7 @@ export function CTASticky({ className }: CTAStickyProps) {
 
   return (
     <div className={cn(
-      "fixed top-0 left-0 right-0 z-50 glass border-b border-white/10 backdrop-blur-xl",
+      "fixed top-0 left-0 right-0 z-50 glass border-b border-white/10 backdrop-saturate-150 shadow-elev-1",
       "transform transition-all duration-300 ease-out",
       isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0",
       className
@@ -32,7 +32,7 @@ export function CTASticky({ className }: CTAStickyProps) {
       <div className="max-w-7xl mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           <div className="hidden md:block">
-            <span className="text-sm text-white/80 font-light">
+            <span className="text-sm text-platinum/80 font-light">
               Ready to elevate your brand?
             </span>
           </div>
