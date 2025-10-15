@@ -124,14 +124,23 @@
 
 /* Updated utility classes for luxury design system */
 @layer utilities {
+  /* Chrome text effect - refined gradient */
   .chrome-text {
-    background: linear-gradient(180deg, #e5e7eb 0%, #ffffff 35%, #9ca3af 50%, #111827 60%, #e5e7eb 80%, #ffffff 100%);
+    background: linear-gradient(135deg, #e5e7eb 0%, #ffffff 25%, #9ca3af 50%, #111827 75%, #e5e7eb 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 24px rgba(0, 0, 0, 0.45);
   }
 
+  /* Glass morphism utility */
+  .glass {
+    backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Glass card component */
   .glass-card {
     border-radius: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -147,6 +156,7 @@
     border-color: rgba(255, 255, 255, 0.15);
   }
 
+  /* Primary button component */
   .primary-button {
     display: inline-flex;
     align-items: center;
@@ -166,6 +176,29 @@
     transform: translateY(-1px);
   }
 
+  .primary-button:focus-visible {
+    outline: none;
+    ring: 2px;
+    ring-color: rgba(255, 255, 255, 0.5);
+    ring-offset: 2px;
+    ring-offset-color: #000;
+  }
+
+  /* Focus styles for accessibility */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black;
+  }
+
+  /* Container with consistent padding */
+  .container-custom {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
     .glass-card,
     .primary-button {

@@ -1,58 +1,78 @@
 import { GlassCard } from "@/components/glass-card"
-import { PrimaryButton } from "@/components/primary-button"
+import { SectionCTA } from "@/components/section-cta"
 
 const services = [
   {
-    title: "Web Experience",
-    description: "Marketing sites and product stories engineered for clarity and conversion.",
-    href: "/services/web",
+    title: "Website Design & Build",
+    description: "Luxury websites that convert visitors into customers.",
+    outcomes: [
+      "Increase conversion rates by 150%+",
+      "Reduce bounce rate with premium UX",
+      "Mobile-first responsive design"
+    ],
+    href: "/services/website-design",
   },
   {
-    title: "Product Platform",
-    description: "Application architecture and feature delivery designed for scale.",
-    href: "/services/product",
+    title: "Brand & Visual Systems",
+    description: "Complete brand identity that communicates excellence.",
+    outcomes: [
+      "Memorable brand recognition",
+      "Consistent visual language",
+      "Premium brand guidelines"
+    ],
+    href: "/services/design",
   },
   {
-    title: "Brand Systems",
-    description: "Visual identity and design systems crafted for enterprise standards.",
-    href: "/services/brand",
+    title: "Social Media Systems",
+    description: "Strategic content that builds engaged communities.",
+    outcomes: [
+      "Grow followers by 300%+",
+      "Increase engagement rates",
+      "Build brand authority"
+    ],
+    href: "/services/social-media",
   },
   {
-    title: "Social Programs",
-    description: "Editorial programming and community operations that sustain growth.",
-    href: "/services/social",
-  },
-  {
-    title: "Digital Assets",
-    description: "Ready-to-use content packs and templates to accelerate launches.",
-    href: "/services/assets",
-  },
-  {
-    title: "Partnerships",
-    description: "Referral alliances and white-label collaborations for agencies.",
-    href: "/services/partnerships",
+    title: "Full-Stack Engineering",
+    description: "Custom platforms and applications that scale.",
+    outcomes: [
+      "Lightning-fast performance",
+      "Scalable architecture",
+      "Enterprise-grade security"
+    ],
+    href: "/services/development",
   },
 ]
 
 export function ServiceTiles() {
   return (
     <section className="py-32 px-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="container-custom">
         <div className="text-center mb-20">
-          <h2 className="chrome-text text-[clamp(2rem,5vw,3.5rem)] font-bold mb-6 tracking-tight">Services</h2>
-          <p className="text-white/60 text-[clamp(1rem,2vw,1.25rem)] font-light max-w-2xl mx-auto">
+          <h2 className="chrome-text text-h2 font-bold mb-6 tracking-tight">Services</h2>
+          <p className="text-body-lg text-white/60 font-light max-w-2xl mx-auto">
             Premium design solutions tailored for high-growth brands
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
           {services.map((service, index) => (
             <GlassCard key={service.title} className="p-8 group" delay={index * 40}>
               <h3 className="text-xl font-semibold mb-4 text-white/90 tracking-tight">{service.title}</h3>
-              <p className="text-white/60 mb-8 leading-relaxed font-light">{service.description}</p>
-              <PrimaryButton href={service.href} size="sm">
+              <p className="text-white/60 mb-6 leading-relaxed font-light">{service.description}</p>
+
+              <ul className="space-y-2 mb-8">
+                {service.outcomes.map((outcome, idx) => (
+                  <li key={idx} className="text-sm text-white/70 font-light flex items-start gap-2">
+                    <span className="text-white/40 mt-1">•</span>
+                    {outcome}
+                  </li>
+                ))}
+              </ul>
+
+              <SectionCTA href={service.href} utmSource={`services-${service.title.toLowerCase().replace(/\s+/g, '-')}`}>
                 Learn More
-              </PrimaryButton>
+              </SectionCTA>
             </GlassCard>
           ))}
         </div>
