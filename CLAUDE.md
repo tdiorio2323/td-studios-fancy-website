@@ -50,14 +50,20 @@ pnpm audit
 ### Key Directories
 - `app/` - Next.js app router pages and layouts
   - `app/services/` - Service-specific pages (website-design, development, social-media, design)
+  - `app/work/[slug]/` - Dynamic portfolio client pages (uses generateStaticParams)
   - Route structure mirrors navigation: home, work, process, about, contact
 - `components/` - Reusable React components
   - Custom components: hero, navigation, service-tiles, testimonials, process-rail, cta
-  - Luxury design components: glass-card, primary-button, loading-screen
+  - Luxury design components: glass-card, primary-button, loading-screen, frosted-button
+  - Animation components: custom-cursor, page-transition, scroll-reveal (Framer Motion based)
   - `components/ui/` - shadcn/ui components (button, input, select, textarea)
-- `lib/` - Utility functions (utils.ts for cn() tailwind merge)
+- `lib/` - Utility functions and data
+  - `utils.ts` - cn() tailwind merge helper
+  - `clients-data.ts` - Portfolio client data (Client interface + clients array)
+  - `seo.ts` - Structured data helpers for JSON-LD
 - `public/` - Static assets and images
-- `styles/` - Additional style files
+  - `public/clients/` - Client logos and portfolio assets organized by slug
+- `scripts/` - Build validation scripts (check-headings.js)
 
 ### Design System
 
@@ -124,10 +130,11 @@ This project auto-syncs with v0.app and deploys to Vercel:
 - Tailwind CSS v4 with PostCSS
 - Form handling: react-hook-form with zod validation
 - Icons: lucide-react
-- Animations: tailwindcss-animate, tw-animate-css
+- Animations: framer-motion, tailwindcss-animate, tw-animate-css
 - Date handling: date-fns
 - Carousel: embla-carousel-react
-- Font: Inter (via next/font/google)
+- Font: Inter (via next/font/google) or Geist
+- Theme management: next-themes
 
 ## Development Notes
 
@@ -136,6 +143,28 @@ This project auto-syncs with v0.app and deploys to Vercel:
 - All pages maintain consistent luxury aesthetic with dark theme
 - Metadata configured for SEO with OpenGraph and Twitter cards
 - @vercel/analytics integrated for tracking
+
+### Portfolio System (Work Pages)
+
+**Dynamic client pages use static generation:**
+- Client data defined in `lib/clients-data.ts` as a typed array
+- Each client has a unique `slug` field used for routing
+- `/work/[slug]/page.tsx` uses `generateStaticParams()` to pre-render all client pages at build time
+- `generateMetadata()` creates SEO-optimized metadata per client
+
+**Client interface includes:**
+- Basic info: name, slug, logo, industry, year
+- Services array, description, results array
+- Gallery images (array of paths)
+- Optional: heroImage, tagline, websiteUrl, socialLinks, testimonial
+- Logo modifiers: logoInvert (boolean), logoBgColor (string)
+
+**Adding new portfolio clients:**
+1. Add client entry to `clients` array in `lib/clients-data.ts`
+2. Create unique slug (used in URL: `/work/{slug}`)
+3. Add logo to `public/clients/{slug}/logo.{ext}`
+4. Add gallery images to `public/` or client-specific folder
+5. Run `pnpm build` to verify static generation works
 
 ## Testing & Quality
 

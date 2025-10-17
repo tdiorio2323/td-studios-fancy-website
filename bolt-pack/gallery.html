@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolt Pack Gallery - Product Showcase</title>
+    <meta name="description" content="Browse the complete Bolt Pack product collection with optimized image gallery">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0A0A0B;
+            --bg-secondary: #1a1a1b;
+            --text-primary: #E6E7EA;
+            --text-secondary: #a8a9ad;
+            --accent: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 11, 0.95);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1.5rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #E6E7EA 0%, #ffffff 50%, #E6E7EA 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Search & Filter */
+        .controls {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            backdrop-filter: blur(24px);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.625rem 1.25rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 9999px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+                padding: 1rem;
+            }
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 3 / 4;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .item-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(40px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .lightbox-info {
+            text-align: center;
+        }
+
+        .lightbox-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .lightbox-meta {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -1rem;
+            right: -1rem;
+            width: 48px;
+            height: 48px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--accent);
+            font-size: 1.5rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--accent);
+            font-size: 1.25rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .lightbox-nav.prev {
+            left: 2rem;
+        }
+
+        .lightbox-nav.next {
+            right: 2rem;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--glass-border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Lazy Loading Placeholder */
+        .lazy-placeholder {
+            background: linear-gradient(90deg, var(--bg-secondary) 25%, rgba(255, 255, 255, 0.05) 50%, var(--bg-secondary) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>Bolt Pack Gallery</h1>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-value" id="total-count">0</span>
+                    <span>items</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="visible-count">0</span>
+                    <span>visible</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="search-box">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input
+                type="text"
+                id="search-input"
+                class="search-input"
+                placeholder="Search products by name..."
+                autocomplete="off"
+            >
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter=".jpg">JPG</button>
+            <button class="filter-btn" data-filter=".png">PNG</button>
+            <button class="filter-btn" data-filter=".webp">WebP</button>
+        </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery" id="gallery">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Loading gallery...</p>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+            <button class="lightbox-nav prev" id="lightbox-prev" aria-label="Previous">‹</button>
+            <button class="lightbox-nav next" id="lightbox-next" aria-label="Next">›</button>
+            <img class="lightbox-image" id="lightbox-image" src="" alt="">
+            <div class="lightbox-info">
+                <h2 class="lightbox-title" id="lightbox-title"></h2>
+                <p class="lightbox-meta" id="lightbox-meta"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image data
+        const images = [
+            "1_2 & 1_2 TEA LEMONADE.jpg",
+            "AIRHEADZ.jpg",
+            "APPLEJACKS.jpg",
+            "BABY MAMA DRAMA.jpg",
+            "BAHAMA BLUEBERRY MISTIC.jpg",
+            "BIRTHDAY CAKE.jpg",
+            "BLACK CHERRY BOURBON FLAN.jpg",
+            "BLACK CHERRY LEMONADE.jpg",
+            "BLACK MAPLE.png",
+            "BLUE OPP PACK.png",
+            "blue-sushi.jpg",
+            "BOMB POP SUPER SOUR STRAWBERRY.png",
+            "BRAIN CANDY.jpg",
+            "BUBBLEGUM RUNTZ.jpg",
+            "BUNCHA CRUNCH.jpg",
+            "CAKE BATTER.webp",
+            "CALYPSO PARADISE PUNCH.jpg",
+            "CALYPSO REGULAR.jpg",
+            "CALYPSO WATERMELON LEMONADE .jpg",
+            "CANDYLAND RUNTZ.jpg",
+            "CANDYLAND RUNTZ(1).jpg",
+            "CANDYLAND.jpg",
+            "CEREAL MILK.jpg",
+            "CEREAL-MILk.jpg",
+            "CHERRY BLAST.jpg",
+            "CHERRY BLOSSOM.jpg",
+            "CHERRY BOMB.jpg",
+            "CHERRY BUBBLE GUM.jpg",
+            "CHERRY CUPCAKES.jpg",
+            "CHERRY MINTZ.png",
+            "CHOCO TACO.jpg",
+            "CHOCOLATE DRIZZLE PANCAKES.jpg",
+            "CHOCOLATE WAFERZ.jpg",
+            "CHOCOLATE WAFERZ(1).jpg",
+            "CHROME RUNTZ.jpg",
+            "CHUCK CHARMZ.jpg",
+            "Chucky Charms.jpg",
+            "CHURRO CHEESECAKE.jpg",
+            "CHURROZ.jpg",
+            "Cinnamon Toast Crunch Front.jpg",
+            "COCONUT COLADA LIMEADE.jpg",
+            "COOKIE DOUGH (1)_preview.jpg",
+            "COOKIES n_ CREAM REESE PIECES.jpg",
+            "COSMIC BROWNIES 2.png",
+            "COSMIC BROWNIES.jpg",
+            "COSMIC COOKIES.jpg",
+            "CRY BABY CHERRY.jpg",
+            "CUCUMBER LEMONADE.jpg",
+            "CUTWATER SB.jpg",
+            "CUTWATER WHITE RUSSIAN.jpg",
+            "DEAD OPPS.jpg",
+            "DIRTY SPRITE-2.jpg",
+            "DISCO GELATO.jpg",
+            "divorce-cake-final.jpg",
+            "Down the Fox Hole.jpg",
+            "DUBBLE BUBBLE.jpg",
+            "DUNKAROOZ FUDGE.jpg",
+            "DUNKAROOZ VANILLA.jpg",
+            "DURBAN POISON.jpg",
+            "FOX HOLE.jpg",
+            "FRAPPE.jpg",
+            "FROSTED DONUTS.jpg",
+            "FROSTED DONUTZ.jpg",
+            "FUN DIP WHITE CHERRY.jpg",
+            "FUNFETTI OREO.jpg",
+            "FUNNEL CAKE.jpg",
+            "GALACTIC WARHEADS.jpg",
+            "GALACTIC WARHEADZ.jpg",
+            "GG#4 x SCARFACE.jpg",
+            "GIZMO-GAS.png",
+            "GRAPE DRIZZLE PANCAKES.jpg",
+            "GRAPEBERRY LEMONADE.jpg",
+            "GREEN HI CHEW.jpg",
+            "GREMLINZ.png",
+            "GRUNTZ.jpg",
+            "GUMMY BEARZ.jpg",
+            "GUSH MINTZ.jpg",
+            "GUSHERZ.png",
+            "HARDCORE RUNTZ.jpg",
+            "HAWAIIN PUNCH BOMB POP.jpg",
+            "HERSH COOKIES N CREAM.jpg",
+            "HERSHEYS COOKIES n_ CREME.jpg",
+            "HERSHEYS MINI SIZE REESES .png",
+            "ICE CREAM CONE.jpg",
+            "ICE CREAM GELATO.jpg",
+            "ICE CREAM MINTZ.jpg",
+            "ICE CREAM PANCAKES.jpg",
+            "ICE CREAM SUNDAE.jpg",
+            "JET FUEL OG.jpg",
+            "JOLLY RANCHERZ.jpg",
+            "JUJUBEEZ GREEN.jpg",
+            "JUJUBEEZ PURPLE.jpg",
+            "KING LOUIS XIII.jpg",
+            "KIT KAT BDAY.jpg",
+            "kitkat-bday.jpg",
+            "KIWI STRAWBERRY MISTIC.jpg",
+            "KOOL AID BURSTS.jpg",
+            "LAVA CAKE.jpg",
+            "LEMON CHERRY CRUSHERZ.jpg",
+            "LIFESAVERS GUMMIES.jpg",
+            "LIL DEBBIE.jpg",
+            "LT CRUNCH.jpg",
+            "MANGO MANIA MISTIC.jpg",
+            "MINT GELATO.jpg",
+            "MISTIC GRAPE STRAWBERRY.jpg",
+            "MOCHI-1.jpg",
+            "MONKEYBREAD.jpg",
+            "NERDS CANDY CORN.jpg",
+            "NERDS.jpg",
+            "NIGHTMARE FUEL FREDDY.jpg",
+            "OCEAN BLUE.jpg",
+            "OCREAM CREAMSICLE MIMOSA.jpg",
+            "OOPS! ALL BERRIES.jpg",
+            "OPERATION PAIN.jpg",
+            "ORANGE CREAMSICLE MIMOSA.jpg",
+            "ORIGINAL LEMONADE.jpg",
+            "PEACH BEACH MISTIC.jpg",
+            "PEACH ZABLA.jpg",
+            "PENNY_S CUT.jpg",
+            "PINEAPPLE EXPRESS.jpg",
+            "PINK FUNFETTI.jpg",
+            "PINK ZOAP.jpg",
+            "platinum-cookie.jpg",
+            "POPPZ.png",
+            "product_144.jpg",
+            "product_26.jpg",
+            "PUAYO.jpg",
+            "PURPLE HAZE.jpg",
+            "PURPLE ZLUSH.jpg",
+            "Rainbow cake.jpg",
+            "RASPBERRY SLUSH PUPPY.png",
+            "RED HI CHEW.jpg",
+            "RED RUM.jpg",
+            "reeses puffas.jpg",
+            "RETRO RUNTZ.jpg",
+            "RING POP.jpg",
+            "RING POPZ 2.jpg",
+            "ROCKET FUEL.jpg",
+            "ROCKET FUEL(1).jpg",
+            "RUNTZ GRAFF.png",
+            "SAMOAZ.jpg",
+            "SCOOBY MYSTERY.png",
+            "SOUR BUBBLE GUM GUMMIES.jpg",
+            "SOUR GUSHERS.jpg",
+            "SOUR PATCH KIDS SNAPPLE.webp",
+            "SOUR POWER STRAWS.jpg",
+            "SOUR SQUEEZE POP.png",
+            "SOUR STRAWS BLUE RASPBERRY .jpg",
+            "SOUTHERN PEACH LEMONADE.jpg",
+            "SP-KIDS.png",
+            "SPOOKY STIX.png",
+            "SSIPS SABOR A_ CANDY.jpg",
+            "Strawberry Banana Mistic.png",
+            "STRAWBERRY DRIZZLE PANCAKES.jpg",
+            "STRAWBERRY MILK.jpg",
+            "Strawberry Opp Pack.png",
+            "STRAWBERRY OPP PACK(1).png",
+            "STRAWBERRY POUNDCAKE.jpg",
+            "STRAWBERRY SPLASH.jpg",
+            "STRAWBERRY TSUNAMI.jpg",
+            "SUGAR SMACKS.jpg",
+            "SUGAR SMACKS.webp",
+            "SUNSET SHERBERT.jpg",
+            "SUPERMAN.jpg",
+            "TAGALONGZ.jpg",
+            "TELETUBBIEZ.jpg",
+            "TELITUBBIES.jpg",
+            "THIN MINTZ.jpg",
+            "TIRAMISU.png",
+            "TRAPHEADS.png",
+            "TRIX HALLOWEEN.jpg",
+            "TROLLIE SOUR BRITE CRAWLERS.jpg",
+            "TROPICAL FRUIT PUNCH MISTIC.jpg",
+            "TROPICAL RUNTZ.jpg",
+            "UNICORN PISS.jpg",
+            "UNO JOINTS.png",
+            "VANILLA WAFERZ.jpg",
+            "VANILLA WAFERZ(1).jpg",
+            "WATERMELON SPLASH.jpg",
+            "wedding-crashers.jpg",
+            "WHITE TAFFY.jpg",
+            "WHOPPERZ.jpg",
+            "WILL WONKA CHOC FACTORY.jpg",
+            "witches breathe.jpg",
+            "ZA DWARFS.jpg",
+            "ZA HUBBA.jpg",
+            "ZASHIMI.jpg",
+            "ZAZA LA BORI.jpg",
+            "ZOMBIE BRAINS.jpg",
+            "ZPRINKLEZ.jpg"
+        ];
+
+        let currentIndex = 0;
+        let filteredImages = [...images];
+
+        // DOM Elements
+        const gallery = document.getElementById('gallery');
+        const searchInput = document.getElementById('search-input');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxMeta = document.getElementById('lightbox-meta');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+        const totalCount = document.getElementById('total-count');
+        const visibleCount = document.getElementById('visible-count');
+
+        // Initialize gallery
+        function initGallery() {
+            renderGallery(images);
+            updateStats();
+        }
+
+        // Render gallery
+        function renderGallery(imageList) {
+            if (imageList.length === 0) {
+                gallery.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <h2>No products found</h2>
+                        <p>Try adjusting your search or filter</p>
+                    </div>
+                `;
+                return;
+            }
+
+            gallery.innerHTML = imageList.map((image, index) => `
+                <div class="gallery-item" data-index="${index}" data-filename="${image}">
+                    <img
+                        src="${image}"
+                        alt="${formatName(image)}"
+                        loading="lazy"
+                        onerror="this.parentElement.style.display='none'"
+                    >
+                    <div class="overlay">
+                        <span class="item-name">${formatName(image)}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const index = parseInt(item.dataset.index);
+                    openLightbox(index);
+                });
+            });
+        }
+
+        // Format filename for display
+        function formatName(filename) {
+            return filename
+                .replace(/\.(jpg|png|webp)$/i, '')
+                .replace(/_/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            filteredImages = images.filter(img =>
+                formatName(img).toLowerCase().includes(query)
+            );
+            renderGallery(filteredImages);
+            updateStats();
+        });
+
+        // Filter functionality
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                const query = searchInput.value.toLowerCase();
+
+                if (filter === 'all') {
+                    filteredImages = images.filter(img =>
+                        formatName(img).toLowerCase().includes(query)
+                    );
+                } else {
+                    filteredImages = images.filter(img =>
+                        img.toLowerCase().endsWith(filter) &&
+                        formatName(img).toLowerCase().includes(query)
+                    );
+                }
+
+                renderGallery(filteredImages);
+                updateStats();
+            });
+        });
+
+        // Update stats
+        function updateStats() {
+            totalCount.textContent = images.length;
+            visibleCount.textContent = filteredImages.length;
+        }
+
+        // Lightbox
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightbox();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightbox() {
+            const image = filteredImages[currentIndex];
+            const ext = image.split('.').pop().toUpperCase();
+
+            lightboxImage.src = image;
+            lightboxTitle.textContent = formatName(image);
+            lightboxMeta.textContent = `${currentIndex + 1} of ${filteredImages.length} • ${ext}`;
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % filteredImages.length;
+            updateLightbox();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + filteredImages.length) % filteredImages.length;
+            updateLightbox();
+        }
+
+        // Lightbox controls
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxNext.addEventListener('click', nextImage);
+        lightboxPrev.addEventListener('click', prevImage);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+
+            switch(e.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowRight':
+                    nextImage();
+                    break;
+                case 'ArrowLeft':
+                    prevImage();
+                    break;
+            }
+        });
+
+        // Close lightbox on backdrop click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        // Initialize
+        initGallery();
+
+        // Lazy loading observer
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.classList.remove('lazy-placeholder');
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px'
+        });
+
+        // Observe images after initial render
+        setTimeout(() => {
+            document.querySelectorAll('.gallery-item img').forEach(img => {
+                img.classList.add('lazy-placeholder');
+                imageObserver.observe(img);
+            });
+        }, 100);
+    </script>
+</body>
+</html>
