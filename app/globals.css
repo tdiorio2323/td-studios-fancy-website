@@ -111,6 +111,8 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-ink: #0A0A0B;
+  --color-platinum: #E6E7EA;
 }
 
 @layer base {
@@ -118,7 +120,8 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-ink text-platinum;
+    background-color: #0A0A0B;
+    color: #E6E7EA;
   }
 
   /* Selection styling */
@@ -264,7 +267,7 @@
 
   /* Focus styles for accessibility */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-platinum/40 focus-visible:ring-offset-2 focus-visible:ring-offset-ink;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black;
   }
 
   /* Container with consistent padding */

@@ -24,6 +24,20 @@ pnpm start
 
 # Lint the codebase
 pnpm lint
+
+# Run Playwright E2E tests (tests in tests/ directory)
+pnpm test:e2e
+
+# Run Lighthouse SEO audit (tests homepage and /services)
+pnpm test:seo
+
+# Validate HTML heading structure and metadata
+pnpm lint:html
+# or
+pnpm check:structure
+
+# Run full audit (build + E2E + SEO tests)
+pnpm audit
 ```
 
 ## Architecture & Structure
@@ -51,8 +65,14 @@ pnpm lint
 - Dark mode by default (`className="dark"` on html element)
 - Custom utility classes defined in `app/globals.css`:
   - `.chrome-text` - Metallic gradient text effect used for branding
-  - `.glass-card` - Glassmorphic card with backdrop blur and subtle borders
-  - `.primary-button` - Glassmorphic button with hover effects
+  - `.glass` - Base glassmorphism with backdrop blur
+  - `.glass-card` - Glassmorphic card with hover lift effect
+  - `.primary-button` - Glassmorphic button with sheen animation on hover
+  - `.secondary-button` - Transparent button with border
+  - `.focus-ring` - Consistent focus styling for accessibility
+  - `.grid-bg` - Radial grid background for sections
+  - `.divider` - 1px white/10 divider line
+- Brand colors: `--color-ink` (#0A0A0B) background, `--color-platinum` (#E6E7EA) text
 - Uses oklch color space for modern color definitions
 - Tailwind CSS v4 with custom CSS variables
 - Reduced motion support for accessibility
@@ -89,13 +109,13 @@ Uses `@/*` for absolute imports:
 - Image optimization disabled (`unoptimized: true`)
 - These settings allow rapid iteration from v0.app syncs
 
-## v0.app Integration
+## Deployment & v0.app Integration
 
-This project auto-syncs with v0.app:
-- Changes made in v0.app automatically push to this repo
-- Deployed at: https://vercel.com/td-studioss-projects/v0-website-build-ip
+This project auto-syncs with v0.app and deploys to Vercel:
 - v0.app project: https://v0.app/chat/projects/pa3YYmKLuvN
-- When making manual changes, be aware they may be overwritten by v0.app syncs
+- Vercel deployment: https://vercel.com/td-studioss-projects/v0-website-build-ip
+- Changes made in v0.app automatically push to this repo
+- **Important:** Manual changes may be overwritten by v0.app syncs
 
 ## Key Dependencies
 
@@ -116,3 +136,39 @@ This project auto-syncs with v0.app:
 - All pages maintain consistent luxury aesthetic with dark theme
 - Metadata configured for SEO with OpenGraph and Twitter cards
 - @vercel/analytics integrated for tracking
+
+## Testing & Quality
+
+- **E2E Testing:** Playwright tests in `tests/` directory verify:
+  - Homepage loading and sticky CTA behavior
+  - Contact form validation
+  - Services page structure
+  - Navigation and dropdown menus
+- **SEO Auditing:** Lighthouse CI (lighthouserc.json) tests:
+  - Performance (min 90%)
+  - Accessibility (min 95%)
+  - SEO (min 95%)
+  - Best Practices (min 95%)
+  - Runs on homepage and /services
+- **HTML Validation:** scripts/check-headings.js validates:
+  - Each page has exactly one `<h1>` element
+  - All pages have proper metadata exports
+  - Client components import Hero for H1
+- **Full Audit:** Run `pnpm audit` before deployments to verify build, tests, and SEO
+
+## Accessibility Features
+
+- Skip to main content link (visible on focus)
+- Proper ARIA labels on navigation and interactive elements
+- Focus ring utilities for keyboard navigation
+- Reduced motion support in CSS
+- Semantic HTML structure with proper heading hierarchy
+- Test IDs for E2E testing (e.g., `data-testid="hero-title"`)
+
+## SEO & Structured Data
+
+- Comprehensive metadata in app/layout.tsx (OpenGraph, Twitter cards)
+- JSON-LD structured data for Organization and LocalBusiness schemas (lib/seo.ts)
+- Canonical URLs configured
+- Google verification token placeholder
+- Font optimization with preload and display swap
