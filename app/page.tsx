@@ -1,12 +1,12 @@
 "use client"
 
+// Force rebuild - loading screen completely removed
 import { Hero } from "@/components/hero"
 import { ServiceTiles } from "@/components/service-tiles"
 import { ProcessRail } from "@/components/process-rail"
 import { Testimonials } from "@/components/testimonials"
 import { CTA } from "@/components/cta"
 import { BadgeLine } from "@/components/badge-line"
-import { SectionCTA } from "@/components/section-cta"
 
 export default function HomePage() {
   return (
