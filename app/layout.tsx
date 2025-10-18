@@ -7,6 +7,7 @@ import CTASticky from "@/components/CTASticky"
 import { VisuallyHidden } from "@/components/visually-hidden"
 import { generateOrganizationSchema, generateLocalBusinessSchema } from "@/lib/seo"
 import { Suspense } from "react"
+import FeedbackGuard from "@/components/FeedbackGuard"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -126,6 +127,7 @@ export default function RootLayout({
           <CTASticky />
           <main id="main-content" className="pt-20">{children}</main>
         </Suspense>
+        <FeedbackGuard />
       </body>
     </html>
   )
