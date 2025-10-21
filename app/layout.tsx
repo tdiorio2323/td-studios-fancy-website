@@ -3,26 +3,20 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
-import CTASticky from "@/components/CTASticky"
-import { VisuallyHidden } from "@/components/visually-hidden"
-import { generateOrganizationSchema, generateLocalBusinessSchema } from "@/lib/seo"
-import { Suspense } from "react"
-import FeedbackGuard from "@/components/FeedbackGuard"
+import { SkipToContent } from "@/components/skip-to-content"
+import { StructuredData } from "@/components/structured-data"
+import { Footer } from "@/components/footer"
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  preload: true,
 })
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s | TD STUDIOS",
-    default: "TD STUDIOS — Luxury Websites & Growth Systems",
-  },
+  title: "TD STUDIOS — Luxury Strategy Creativity",
   description:
-    "Luxury websites and growth systems. NYC-based. Strategy-led. Full-stack execution.",
+    "Premium design solutions for high-growth brands. Strategy, design, development, and social programs headquartered in New York City.",
   generator: "TD STUDIOS",
   keywords: [
     "luxury design",
@@ -35,8 +29,6 @@ export const metadata: Metadata = {
     "social media marketing",
     "graphic design",
     "brand identity",
-    "full-stack development",
-    "digital strategy",
   ],
   authors: [{ name: "TD STUDIOS" }],
   creator: "TD STUDIOS",
@@ -53,28 +45,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "TD STUDIOS — Luxury Websites & Growth Systems",
-    description: "Luxury websites and growth systems. NYC-based. Strategy-led. Full-stack execution.",
+    title: "TD STUDIOS — Luxury Strategy Creativity",
+    description: "Premium design solutions for high-growth brands. Strategy, design, development, and social programs.",
     type: "website",
     locale: "en_US",
     siteName: "TD STUDIOS",
-    url: "https://tdstudiosny.com",
-    images: [
-      {
-        url: "https://tdstudiosny.com/og-default.jpg",
-        width: 1200,
-        height: 630,
-        alt: "TD STUDIOS — Luxury Websites & Growth Systems",
-      },
-    ],
+    url: "https://tdstudios.com",
   },
   twitter: {
     card: "summary_large_image",
-    title: "TD STUDIOS — Luxury Websites & Growth Systems",
-    description: "Luxury websites and growth systems. NYC-based. Strategy-led. Full-stack execution.",
-    images: ["https://tdstudiosny.com/og-default.jpg"],
-    creator: "@tdstudiosny",
-    site: "@tdstudiosny",
+    title: "TD STUDIOS — Luxury Strategy Creativity",
+    description: "Premium design solutions for high-growth brands",
+    creator: "@tdstudios",
   },
   viewport: {
     width: "device-width",
@@ -84,9 +66,6 @@ export const metadata: Metadata = {
   verification: {
     google: "verification_token",
   },
-  alternates: {
-    canonical: "https://tdstudiosny.com",
-  },
 }
 
 export default function RootLayout({
@@ -94,40 +73,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const organizationSchema = generateOrganizationSchema()
-  const localBusinessSchema = generateLocalBusinessSchema()
-
   return (
     <html lang="en" className="dark">
-      <head>
-        {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://formspree.io" />
-
-        {/* JSON-LD Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-        />
-      </head>
-      <body className={`${inter.variable} font-sans bg-black text-white antialiased`}>
-        {/* Skip to content link for accessibility */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-white text-black px-4 py-2 rounded-md font-medium"
-        >
-          Skip to main content
-        </a>
-
-        <Suspense fallback={<div>Loading...</div>}>
-          <Navigation />
-          <CTASticky />
-          <main id="main-content" className="pt-20">{children}</main>
-        </Suspense>
-        <FeedbackGuard />
+      <body className={`${inter.variable} font-sans text-white antialiased`}>
+        <SkipToContent />
+        <StructuredData type="organization" />
+        <Navigation />
+        <main id="main-content" className="pt-20">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   )

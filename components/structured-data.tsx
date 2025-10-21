@@ -1,85 +1,68 @@
-export function StructuredData() {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "TD STUDIOS",
-    "alternateName": "TD Studios",
-    "url": "https://tdstudios.com",
-    "logo": "https://tdstudios.com/td-studios-white-logo.png",
-    "description": "Premium design solutions for high-growth brands. Strategy, design, development, and social programs headquartered in New York City.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Manhattan",
-      "addressRegion": "NY",
-      "addressCountry": "US"
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "email": "Tyler@tdstudiosny.com",
-      "telephone": "+1-347-485-9935",
-      "contactType": "Customer Service",
-      "availableLanguage": "English"
-    },
-    "sameAs": [
-      "https://twitter.com/tdstudios"
-    ],
-    "areaServed": {
-      "@type": "GeoCircle",
-      "geoMidpoint": {
-        "@type": "GeoCoordinates",
-        "latitude": "40.7128",
-        "longitude": "-74.0060"
-      },
-      "geoRadius": "Global"
-    },
-    "knowsAbout": [
-      "Web Design",
-      "Web Development",
-      "Social Media Marketing",
-      "Graphic Design",
-      "Brand Identity",
-      "UX Design",
-      "Full-Stack Development",
-      "Digital Strategy"
-    ],
-    "makesOffer": [
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Website Design",
-          "description": "Luxury web experiences engineered for clarity and conversion"
+import Script from "next/script"
+
+interface StructuredDataProps {
+  type: "organization" | "service" | "breadcrumb"
+  data?: any
+}
+
+export function StructuredData({ type, data }: StructuredDataProps) {
+  const getStructuredData = () => {
+    switch (type) {
+      case "organization":
+        return {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "TD STUDIOS",
+          description: "Luxury digital experiences crafted with precision and strategy",
+          url: "https://tdstudios.com",
+          logo: "https://tdstudios.com/logo.png",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "New York",
+            addressRegion: "NY",
+            addressCountry: "US",
+          },
+          contactPoint: {
+            "@type": "ContactPoint",
+            contactType: "Customer Service",
+            email: "hello@tdstudios.com",
+          },
+          sameAs: [
+            "https://twitter.com/tdstudios",
+            "https://linkedin.com/company/tdstudios",
+            "https://instagram.com/tdstudios",
+          ],
         }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
+      case "service":
+        return {
+          "@context": "https://schema.org",
           "@type": "Service",
-          "name": "Development",
-          "description": "Full-stack engineering and platform development for premium digital products"
+          serviceType: data?.serviceType || "Digital Services",
+          provider: {
+            "@type": "Organization",
+            name: "TD STUDIOS",
+          },
+          areaServed: "Worldwide",
+          ...data,
         }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Social Media Marketing",
-          "description": "Strategic content systems and campaign management for brand growth"
+      case "breadcrumb":
+        return {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: data?.items || [],
         }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Graphic Design",
-          "description": "Visual identity systems and brand assets that communicate excellence"
-        }
-      }
-    ]
+      default:
+        return null
+    }
   }
 
+  const structuredData = getStructuredData()
+
+  if (!structuredData) return null
+
   return (
-    <script
+    <Script
+      id={`structured-data-${type}`}
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
     />

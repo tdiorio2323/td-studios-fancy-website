@@ -1,39 +1,16 @@
-import PortfolioClientPage from './portfolio-client-page'
-import { JsonLd } from '@/components/json-ld'
-import type { Metadata } from 'next'
+import type { Metadata } from "next"
+import WorkClient from "./WorkClient"
 
 export const metadata: Metadata = {
-  title: 'Portfolio | TD Studios',
-  description: 'Explore our portfolio of luxury brand and web projects. See real results from e-commerce, creative agencies, and high-growth startups.',
+  title: "Our Work — Featured Projects & Portfolio | TD STUDIOS",
+  description:
+    "Flagship experiences for ambitious brands. Transformative digital experiences that drive results and elevate brands to new heights.",
   openGraph: {
-    title: 'Portfolio | TD Studios',
-    description: 'Explore our portfolio of luxury brand and web projects. See real results from e-commerce, creative agencies, and high-growth startups.',
+    title: "Our Work — TD STUDIOS",
+    description: "Featured projects representing our commitment to luxury, strategy, and exceptional creativity.",
   },
 }
 
 export default function WorkPage() {
-  const collectionSchema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "TD Studios Portfolio",
-    "description": "Explore our portfolio of premium brand and website projects across industries.",
-    "url": "https://tdstudios.com/work",
-    "mainEntity": {
-      "@type": "ItemList",
-      "itemListElement": [
-        {
-          "@type": "CreativeWork",
-          "name": "Client Success Stories",
-          "description": "Discover how we've transformed brands through strategic design and development"
-        }
-      ]
-    }
-  }
-
-  return (
-    <>
-      <JsonLd data={collectionSchema} />
-      <PortfolioClientPage />
-    </>
-  )
+  return <WorkClient />
 }

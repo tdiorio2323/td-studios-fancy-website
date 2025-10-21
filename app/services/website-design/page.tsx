@@ -1,5 +1,6 @@
 import { GlassCard } from "@/components/glass-card"
 import { PrimaryButton } from "@/components/primary-button"
+import { StructuredData } from "@/components/structured-data"
 import Image from "next/image"
 import type { Metadata } from "next"
 
@@ -7,25 +8,44 @@ export const metadata: Metadata = {
   title: "Website Design — Luxury Digital Experiences | TD STUDIOS",
   description:
     "Premium website design combining aesthetic excellence with strategic functionality. Responsive, performance-optimized, and SEO-ready luxury web experiences.",
+  alternates: {
+    canonical: "https://tdstudios.com/services/website-design",
+  },
   openGraph: {
     title: "Website Design — TD STUDIOS",
     description: "Digital experiences that captivate. Luxury web design for memorable brand experiences.",
+    url: "https://tdstudios.com/services/website-design",
   },
 }
 
 export default function WebsiteDesignPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen text-white">
+      {/* Structured Data for Service */}
+      <StructuredData
+        type="service"
+        data={{
+          serviceType: "Website Design",
+          name: "Luxury Website Design Services",
+          description:
+            "Premium website design combining aesthetic excellence with strategic functionality for luxury brands.",
+          offers: {
+            "@type": "Offer",
+            availability: "https://schema.org/InStock",
+          },
+        }}
+      />
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/modern-luxury-website-design-workspace-with-clean-.jpg"
-            alt="Modern luxury website design workspace"
+            src="/td-studios-building-exterior.jpg"
+            alt="TD Studios luxury building exterior"
             fill
             className="object-cover"
             priority
-            quality={85}
+            quality={90}
           />
         </div>
         <div className="absolute inset-0 bg-black/40" />

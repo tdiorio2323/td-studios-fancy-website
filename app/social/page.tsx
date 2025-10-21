@@ -2,10 +2,19 @@ import SectionBackground from "@/components/section-background"
 import GlassCard from "@/components/glass-card"
 import PrimaryButton from "@/components/primary-button"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Social Media Marketing & Content Strategy | TD Studios",
+  description:
+    "Story-driven content, community programming, and campaigns that keep your brand in the feed. Expert social media marketing for ambitious brands.",
+  keywords:
+    "social media marketing, content strategy, Instagram marketing, TikTok content, LinkedIn strategy, community management, influencer partnerships, UGC content",
+}
 
 export default function SocialPage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">

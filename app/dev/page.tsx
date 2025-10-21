@@ -2,18 +2,28 @@ import SectionBackground from "@/components/section-background"
 import GlassCard from "@/components/glass-card"
 import PrimaryButton from "@/components/primary-button"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Application & Platform Engineering | TD Studios",
+  description:
+    "Strategy, engineering, and design collaborating to deliver performant digital products. Modern stack expertise with performance and accessibility by default.",
+  keywords:
+    "application engineering, platform engineering, React development, Next.js, TypeScript, full-stack development, API design, serverless architecture",
+}
 
 export default function DevPage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/luxury-modern-office-with-city-view.jpg"
-            alt="Luxury modern office interior"
+            src="/luxury-tech-workspace.jpg"
+            alt="Luxury technology workspace"
             fill
             className="object-cover opacity-30"
+            priority
           />
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-6">

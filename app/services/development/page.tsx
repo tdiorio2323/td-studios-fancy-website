@@ -1,5 +1,6 @@
 import { GlassCard } from "@/components/glass-card"
 import { PrimaryButton } from "@/components/primary-button"
+import { StructuredData } from "@/components/structured-data"
 import Image from "next/image"
 import type { Metadata } from "next"
 
@@ -7,15 +8,33 @@ export const metadata: Metadata = {
   title: "Development Services — Application & Platform Engineering | TD STUDIOS",
   description:
     "Full-stack development services with modern tech stack expertise. React, Next.js, TypeScript, and serverless architectures for performant digital products.",
+  alternates: {
+    canonical: "https://tdstudios.com/services/development",
+  },
   openGraph: {
     title: "Development Services — TD STUDIOS",
     description: "Strategy, engineering, and design collaborating to deliver performant digital products.",
+    url: "https://tdstudios.com/services/development",
   },
 }
 
 export default function DevelopmentPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen text-white">
+      {/* Structured Data for Service */}
+      <StructuredData
+        type="service"
+        data={{
+          serviceType: "Software Development",
+          name: "Full-Stack Development Services",
+          description: "Modern full-stack development with React, Next.js, TypeScript, and serverless architectures.",
+          offers: {
+            "@type": "Offer",
+            availability: "https://schema.org/InStock",
+          },
+        }}
+      />
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">

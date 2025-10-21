@@ -1,12 +1,14 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next"
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = "https://tdstudios.com" // Update with your actual domain
+
   return {
     rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/api/', '/_next/', '/admin/'],
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/api/", "/admin/"],
     },
-    sitemap: 'https://tdstudiosny.com/sitemap.xml',
+    sitemap: `${baseUrl}/sitemap.xml`,
   }
 }

@@ -2,18 +2,28 @@ import SectionBackground from "@/components/section-background"
 import GlassCard from "@/components/glass-card"
 import PrimaryButton from "@/components/primary-button"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Web Experiences That Convert | TD Studios",
+  description:
+    "Strategy, performance, and story-first content engineered for clarity and velocity. Premium web design and development for ambitious brands.",
+  keywords:
+    "web design, web development, SEO optimization, conversion optimization, user experience, digital strategy, brand websites, luxury web design",
+}
 
 export default function WebPage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/luxury-modern-office-with-city-view.jpg"
-            alt="Modern architecture background"
+            src="/luxury-modern-architecture-glass-building.jpg"
+            alt="Luxury modern architecture"
             fill
             className="object-cover opacity-30"
+            priority
           />
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-6">
